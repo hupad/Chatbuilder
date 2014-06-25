@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Chatbuilder</title>
+    <script src="http://chatbuilder.hackreactor.com/ChatBuilder.js"></script>
+    <script src="http://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
+    <script type="text/javascript" src="myScript.js"></script>
+  </head>
+  <body>
+
+    <script>
+
+       delete Chat.display;
+       delete Chat.fetch;
+       delete Chat.send;
+
+       Chat.guide.start();
+        
+      $(document).ready(function(){
+
+          enableButton();
+          
+          // Fetch messages every 3 seconds
+          setInterval(function() {
+              
+            fetch(bindData);
+
+          }, 3000);
+
+          // Send button click
+          $('.send').click(function(){
+
+              // Send message over to Parse
+              send($('.draft').val());
+              
+              // Bind the data to the li element
+              display($('.draft').val());
+
+              // reset the text box
+              $('.draft').val("");
+          });
+
+          // Callback method to fetch and bind data
+          function bindData(data){
+                 for (var i = data.results.length - 1; i >= 0; i--) {
+                      display(data.results[i].text);
+                 };
+            }
+      });
+
+    </script>
+
+    <h2>Borken Chat ------ Not!!</h2>
+
+    <input class="draft" type="text"/> <button class="send" disabled>Send</button>
+
+    <ul class="messages">
+      
+    </ul>
+
+  </body>
+</html>
